@@ -39,6 +39,29 @@
 - 不擅自引入大型依赖或重构整个项目；小步修改，保持我能跟得上。
 - 生成 README、实验报告提纲、答辩 PPT 要点时，语言风格符合**本科课程作业**，朴实、具体，少空话。
 
+## 项目运行环境
+
+- **JDK**：1.8（pom.xml 指定），实际可用 Java 8 / 17
+- **MySQL**：本机 MySQL95 服务，端口 3306，root / 12345
+- **数据库**：pet_adoption（utf8mb4），初始化脚本 `src/main/resources/db/init.sql`
+- **启动方式**：`mvn spring-boot:run`（或先 `mvn compile` 再启动）
+- **访问地址**：http://localhost:8080
+- **测试账号**：admin / 123456（管理员），zhangsan / 123456（普通用户）
+
+### 运行步骤
+
+```bash
+# 1. 初始化数据库（首次或需要重置时）
+mysql -u root -p12345 --default-character-set=utf8mb4 -e "CREATE DATABASE IF NOT EXISTS pet_adoption DEFAULT CHARACTER SET utf8mb4"
+mysql -u root -p12345 --default-character-set=utf8mb4 pet_adoption < src/main/resources/db/init.sql
+
+# 2. 启动项目
+mvn spring-boot:run
+
+# 3. 如果端口被占用，先杀掉旧进程
+cmd //c "taskkill /PID <PID> /F"
+```
+
 ## 语言
 
 - 与用户交流、注释、文档说明：**默认简体中文**。

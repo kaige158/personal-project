@@ -22,7 +22,7 @@
                         <td th:text="${#temporals.format(a.createTime, 'yyyy-MM-dd')}">-</td>
                         <td>
                             <a th:href="@{/admin/announcement/edit/{id}(id=${a.id})}" class="btn btn-sm btn-outline-primary">编辑</a>
-                            <button class="btn btn-sm btn-outline-danger" th:attr="onclick='del(' + ${a.id} + ')'">删除</button>
+                            <button class="btn btn-sm btn-outline-danger" th:onclick="|del(${a.id})|">删除</button>
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(page.records)}"><td colspan="4" class="text-center py-3">暂无公告</td></tr>

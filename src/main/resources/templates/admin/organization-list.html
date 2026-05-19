@@ -21,7 +21,7 @@
                         <td th:text="${org.phone}">-</td>
                         <td>
                             <a th:href="@{/admin/organization/edit/{id}(id=${org.id})}" class="btn btn-sm btn-outline-primary">编辑</a>
-                            <button class="btn btn-sm btn-outline-danger" th:attr="onclick='del(' + ${org.id} + ')'">删除</button>
+                            <button class="btn btn-sm btn-outline-danger" th:onclick="|del(${org.id})|">删除</button>
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(page.records)}"><td colspan="4" class="text-center py-3">暂无机构</td></tr>

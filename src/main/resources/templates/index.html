@@ -10,7 +10,7 @@
                 <span th:if="${a.isTop == 1}"><b>【置顶】</b></span>
                 <span th:text="${a.title}">公告标题</span>
                 <a href="javascript:;" class="ms-2 text-decoration-none" data-bs-toggle="modal" data-bs-target="#announceModal"
-                   th:attr="onclick='showAnnounce(\'' + ${a.title} + '\',\'' + ${a.content} + '\')'">查看详情</a>
+                   th:onclick="|showAnnounce('${a.title}', '${a.content}')|">查看详情</a>
             </span>
         </div>
     </div>

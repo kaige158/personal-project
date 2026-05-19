@@ -69,7 +69,7 @@
                             <i class="bi bi-heart"></i> 申请领养
                         </button>
                         <button class="btn btn-outline-danger btn-lg ms-2" id="favBtn"
-                                th:attr="onclick='toggleFav(' + ${pet.id} + ')'">
+                                th:onclick="|toggleFav(${pet.id})|">
                             <i class="bi bi-heart"></i> 收藏
                         </button>
                     </th:block>

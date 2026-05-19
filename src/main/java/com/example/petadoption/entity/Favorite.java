@@ -1,6 +1,7 @@
 package com.example.petadoption.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -18,8 +19,11 @@ public class Favorite {
     private LocalDateTime createTime;
 
     // 关联字段
+    @TableField(exist = false)
     private String petName;
+    @TableField(exist = false)
     private String petBreed;
+    @TableField(exist = false)
     private String coverImage;
 
     public Long getId() { return id; }

@@ -24,7 +24,7 @@
                 <hr>
                 <div th:text="${article.content}" style="white-space:pre-wrap;line-height:1.8;">内容</div>
                 <hr>
-                <button class="btn btn-outline-danger" th:attr="onclick='like(' + ${article.id} + ')'">
+                <button class="btn btn-outline-danger" th:onclick="|like(${article.id})|">
                     <i class="bi bi-hand-thumbs-up"></i> 点赞
                 </button>
             </div>
