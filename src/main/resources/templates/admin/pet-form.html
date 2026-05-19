@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(${title=pet != null ? '编辑宠物' : '新增宠物'})"></head>
+<body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <main class="container py-4">
+        <h4 th:text="${pet != null ? '编辑宠物信息' : '新增宠物信息'}">新增宠物</h4>
+        <hr>
+        <div class="col-md-8">
+            <form id="petForm" enctype="multipart/form-data">
+                <input type="hidden" name="id" th:value="${pet?.id}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">宠物名称</label>
+                        <input type="text" name="name" class="form-control" th:value="${pet?.name}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">品种</label>
+                        <input type="text" name="breed" class="form-control" th:value="${pet?.breed}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">分类</label>
+                        <select name="categoryId" class="form-select">
+                            <option th:each="cat : ${categories}" th:value="${cat.id}"
+                                    th:text="${cat.name}" th:selected="${pet?.categoryId == cat.id}">分类</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">年龄</label>
+                        <input type="text" name="age" class="form-control" th:value="${pet?.age}" placeholder="如：3个月">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">性别</label>
+                        <select name="gender" class="form-select">
+                            <option value="1" th:selected="${pet?.gender == 1}">公</option>
+                            <option value="0" th:selected="${pet?.gender == 0}">母</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">体型</label>
+                        <select name="size" class="form-select">
+                            <option value="小型" th:selected="${pet?.size == '小型'}">小型</option>
+                            <option value="中型" th:selected="${pet?.size == '中型'}">中型</option>
+                            <option value="大型" th:selected="${pet?.size == '大型'}">大型</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">所在机构</label>
+                        <select name="orgId" class="form-select">
+                            <option th:each="org : ${orgs}" th:value="${org.id}"
+                                    th:text="${org.name}" th:selected="${pet?.orgId == org.id}">机构</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">健康状况</label>
+                    <input type="text" name="healthStatus" class="form-control" th:value="${pet?.healthStatus}" placeholder="如：已驱虫、已疫苗">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">详细描述</label>
+                    <textarea name="description" class="form-control" rows="4" th:text="${pet?.description}"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> 保存</button>
+                <a href="/admin/pet/list" class="btn btn-secondary">返回</a>
+            </form>
+            <div id="msg" class="alert mt-3" style="display:none;"></div>
+        </div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script>
+        $('#petForm').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/admin/pet/save',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    var m = $('#msg');
+                    m.text(res.msg).show();
+                    m.removeClass('alert-danger').addClass(res.code === 200 ? 'alert-success' : 'alert-danger');
+                    if (res.code === 200) {
+                        setTimeout(function() { window.location.href = '/admin/pet/list'; }, 1000);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

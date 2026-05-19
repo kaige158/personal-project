@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(${title='找宠物 - 宠物领养管理系统'})"></head>
+<body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <main class="container py-4">
+        <h4 class="mb-3"><i class="bi bi-search"></i> 寻找心仪的宠物</h4>
+
+        <!-- 搜索和筛选栏 -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="/pet/list" method="get" class="row g-3">
+                    <div class="col-md-3">
+                        <input type="text" name="keyword" class="form-control" placeholder="搜索宠物名称或品种"
+                               th:value="${keyword}">
+                    </div>
+                    <div class="col-md-2">
+                        <select name="categoryId" class="form-select">
+                            <option value="">全部分类</option>
+                            <option th:each="cat : ${categories}" th:value="${cat.id}"
+                                    th:text="${cat.name}" th:selected="${categoryId == cat.id}">分类</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="gender" class="form-select">
+                            <option value="">全部性别</option>
+                            <option value="1" th:selected="${gender == 1}">公</option>
+                            <option value="0" th:selected="${gender == 0}">母</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-search"></i> 搜索
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="/pet/list" class="btn btn-outline-secondary w-100">清除筛选</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 宠物列表 -->
+        <div class="row">
+            <div class="col-md-3 mb-3" th:each="pet : ${page.records}">
+                <div class="card pet-card h-100 shadow-sm">
+                    <img th:src="${pet.coverImage} ?: ''"
+                         class="card-img-top" alt="宠物照片"
+                         onerror="this.src='https://via.placeholder.com/300x200?text=暂无照片'">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${pet.name}">宠物名</h5>
+                        <p class="card-text text-muted mb-1">
+                            <span th:text="${pet.breed}">品种</span> |
+                            <span th:text="${pet.age}">年龄</span> |
+                            <span th:text="${pet.gender == 1 ? '公' : '母'}">性别</span>
+                        </p>
+                        <p class="card-text small text-truncate" th:text="${pet.description}">描述</p>
+                        <a th:href="@{/pet/detail/{id}(id=${pet.id})}" class="btn btn-outline-primary btn-sm w-100">
+                            查看详情
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 无数据 -->
+            <div class="col-12 text-center py-5 text-muted" th:if="${#lists.isEmpty(page.records)}">
+                <i class="bi bi-inbox" style="font-size:3rem;"></i>
+                <p class="mt-2">没有找到符合条件的宠物</p>
+            </div>
+        </div>
+
+        <!-- 分页 -->
+        <div th:replace="fragments/pagination :: pagination(${page})"></div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

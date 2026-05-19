@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 导航栏公共片段 -->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-heart-fill"></i> 宠物领养平台
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="bi bi-house"></i> 首页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pet/list"><i class="bi bi-search"></i> 找宠物</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/article/list"><i class="bi bi-book"></i> 养宠知识</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/organization/list"><i class="bi bi-building"></i> 救助机构</a>
+                </li>
+                <!-- 管理员入口 -->
+                <th:block th:if="${session.loginUser != null AND session.loginUser.role == 1}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-warning" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear"></i> 后台管理
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/admin/">数据看板</a></li>
+                            <li><a class="dropdown-item" href="/admin/pet/list">宠物管理</a></li>
+                            <li><a class="dropdown-item" href="/admin/application/list">申请审核</a></li>
+                            <li><a class="dropdown-item" href="/admin/article/list">文章管理</a></li>
+                            <li><a class="dropdown-item" href="/admin/announcement/list">公告管理</a></li>
+                            <li><a class="dropdown-item" href="/admin/organization/list">机构管理</a></li>
+                        </ul>
+                    </li>
+                </th:block>
+            </ul>
+            <ul class="navbar-nav">
+                <!-- 未登录 -->
+                <th:block th:if="${session.loginUser == null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login"><i class="bi bi-box-arrow-in-right"></i> 登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register"><i class="bi bi-person-plus"></i> 注册</a>
+                    </li>
+                </th:block>
+                <!-- 已登录 -->
+                <th:block th:if="${session.loginUser != null}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i>
+                            <span th:text="${session.loginUser.realName} ?: ${session.loginUser.username}">用户</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/user/center">个人中心</a></li>
+                            <li><a class="dropdown-item" href="/application/my-applications">我的申请</a></li>
+                            <li><a class="dropdown-item" href="/user/my-favorites">我的收藏</a></li>
+                            <li><a class="dropdown-item" href="/user/my-notifications">消息通知</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout">退出登录</a></li>
+                        </ul>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+</nav>
+</html>

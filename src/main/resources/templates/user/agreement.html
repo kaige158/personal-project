@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(${title='领养协议'})"></head>
+<body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <main class="container py-4">
+        <h4><i class="bi bi-file-earmark-text"></i> 领养协议</h4>
+        <hr>
+        <div class="card shadow-sm" id="agreementBox">
+            <div class="card-body">
+                <div class="text-center py-5 text-muted" id="noData">
+                    <i class="bi bi-hourglass-split" style="font-size:3rem;"></i>
+                    <p class="mt-2">加载中...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script>
+        // 协议功能通过 AJAX 加载（第四阶段完善）
+        $.get('/agreement/latest', function(res) {
+            if (res.code === 200 && res.data) {
+                var a = res.data;
+                var html = '<h5>领养协议</h5><hr>' +
+                    '<p>' + (a.content || '协议内容加载中...') + '</p>' +
+                    '<hr><p>宠物：' + (a.petName || '-') + '</p>' +
+                    '<p>状态：' + (a.userSign === 1 ? '<span class="badge bg-success">已签署</span>' : '<span class="badge bg-warning">待签署</span>') + '</p>';
+                if (a.userSign === 0) {
+                    html += '<button class="btn btn-success" onclick="sign(' + a.id + ')">确认签署</button>';
+                }
+                html += '<p class="text-muted small mt-2">签署时间：' + (a.signTime || '-') + '</p>';
+                $('#noData').hide();
+                $('#agreementBox .card-body').append(html);
+            } else {
+                $('#noData').html('<i class="bi bi-inbox" style="font-size:3rem;"></i><p class="mt-2">暂无待签署的领养协议</p>');
+            }
+        }, 'json');
+
+        function sign(id) {
+            if (confirm('确认签署领养协议？签署后请遵守协议内容，善待宠物。')) {
+                $.post('/agreement/sign/' + id, function(res) {
+                    alert(res.msg); location.reload();
+                }, 'json');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(${title='首页 - 宠物领养管理系统'})"></head>
+<body>
+    <!-- 公告滚动条 -->
+    <div class="announcement-bar" th:if="${not #lists.isEmpty(announcements)}">
+        <div class="container">
+            <i class="bi bi-megaphone-fill text-warning"></i>
+            <span class="ms-2" th:each="a,iterStat : ${announcements}" th:if="${iterStat.index == 0}">
+                <span th:if="${a.isTop == 1}"><b>【置顶】</b></span>
+                <span th:text="${a.title}">公告标题</span>
+                <a href="javascript:;" class="ms-2 text-decoration-none" data-bs-toggle="modal" data-bs-target="#announceModal"
+                   th:attr="onclick='showAnnounce(\'' + ${a.title} + '\',\'' + ${a.content} + '\')'">查看详情</a>
+            </span>
+        </div>
+    </div>
+
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <!-- 首页横幅 -->
+    <section class="hero-banner text-center">
+        <div class="container">
+            <h1><i class="bi bi-heart-fill"></i> 宠物领养平台</h1>
+            <p class="lead mt-3">领养代替购买，给流浪动物一个温暖的家</p>
+            <a href="/pet/list" class="btn btn-light btn-lg mt-3">
+                <i class="bi bi-search"></i> 寻找心仪的宠物
+            </a>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- 统计数据 -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card primary">
+                    <div class="card-body text-center">
+                        <i class="bi bi-heart" style="font-size:2rem;"></i>
+                        <h5 class="mt-2">待领养宠物</h5>
+                        <span class="stat-number" th:text="${#lists.size(latestPets)}">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card success">
+                    <div class="card-body text-center">
+                        <i class="bi bi-house-heart" style="font-size:2rem;"></i>
+                        <h5 class="mt-2">成功领养</h5>
+                        <span class="stat-number">200+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card warning">
+                    <div class="card-body text-center">
+                        <i class="bi bi-building" style="font-size:2rem;"></i>
+                        <h5 class="mt-2">合作机构</h5>
+                        <span class="stat-number">2</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card info">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people" style="font-size:2rem;"></i>
+                        <h5 class="mt-2">注册用户</h5>
+                        <span class="stat-number">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最新宠物 -->
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4><i class="bi bi-gift"></i> 最新待领养宠物</h4>
+                <a href="/pet/list" class="btn btn-outline-primary btn-sm">查看全部 <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-3" th:each="pet : ${latestPets}">
+                    <div class="card pet-card h-100 shadow-sm">
+                        <img th:src="${pet.coverImage} ?: '/images/default-pet.jpg'"
+                             class="card-img-top" alt="宠物照片"
+                             onerror="this.src='https://via.placeholder.com/300x200?text=暂无照片'">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${pet.name}">宠物名</h5>
+                            <p class="card-text text-muted mb-1">
+                                <span th:text="${pet.breed}">品种</span> |
+                                <span th:text="${pet.age}">年龄</span> |
+                                <span th:text="${pet.gender == 1 ? '公' : '母'}">性别</span>
+                            </p>
+                            <p class="card-text small text-muted" th:text="${pet.healthStatus}">健康状况</p>
+                            <a th:href="@{/pet/detail/{id}(id=${pet.id})}" class="btn btn-primary btn-sm w-100">
+                                查看详情
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 无数据时显示 -->
+                <div class="col-12 text-center py-5 text-muted" th:if="${#lists.isEmpty(latestPets)}">
+                    <i class="bi bi-inbox" style="font-size:3rem;"></i>
+                    <p class="mt-2">暂无待领养宠物，请稍后再来</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 公告弹窗 -->
+    <div class="modal fade" id="announceModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="announceTitle">公告</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="announceContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showAnnounce(title, content) {
+            $('#announceTitle').text(title);
+            $('#announceContent').text(content);
+        }
+    </script>
+</body>
+</html>

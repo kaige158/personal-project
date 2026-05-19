@@ -9,5 +9,8 @@ Thumbs.db
 # Claude
 .claude/
 
+# Maven
+target/
+
 # Dependencies
 node_modules/

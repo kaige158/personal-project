@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(${title='机构管理'})"></head>
+<body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <main class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4><i class="bi bi-building"></i> 救助机构管理</h4>
+            <a href="/admin/organization/add" class="btn btn-primary"><i class="bi bi-plus"></i> 新增机构</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover shadow-sm">
+                <thead class="table-primary">
+                    <tr><th>名称</th><th>地址</th><th>电话</th><th>操作</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="org : ${page.records}">
+                        <td th:text="${org.name}">-</td>
+                        <td th:text="${org.address}">-</td>
+                        <td th:text="${org.phone}">-</td>
+                        <td>
+                            <a th:href="@{/admin/organization/edit/{id}(id=${org.id})}" class="btn btn-sm btn-outline-primary">编辑</a>
+                            <button class="btn btn-sm btn-outline-danger" th:attr="onclick='del(' + ${org.id} + ')'">删除</button>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(page.records)}"><td colspan="4" class="text-center py-3">暂无机构</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:replace="fragments/pagination :: pagination(${page})"></div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script>
+        function del(id) {
+            if (confirm('确定删除？')) {
+                $.post('/admin/organization/delete/' + id, function(res) { alert(res.msg); location.reload(); }, 'json');
+            }
+        }
+    </script>
+</body>
+</html>

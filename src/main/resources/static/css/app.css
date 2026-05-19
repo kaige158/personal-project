@@ -1,0 +1,90 @@
+/* 宠物领养管理系统 - 自定义样式 */
+
+/* 整体页面背景 */
+body {
+    background-color: #f5f5f5;
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+/* 宠物卡片 */
+.pet-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.pet-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+.pet-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* 宠物状态徽章 */
+.badge-available { background-color: #28a745; }
+.badge-adopted { background-color: #6c757d; }
+.badge-off { background-color: #dc3545; }
+
+/* 首页横幅 */
+.hero-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 60px 0;
+    margin-bottom: 30px;
+}
+.hero-banner h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* 公告栏 */
+.announcement-bar {
+    background: #fff3cd;
+    border-bottom: 1px solid #ffc107;
+    padding: 8px 0;
+}
+
+/* 统计看板卡片 */
+.stat-card {
+    border-radius: 10px;
+    border: none;
+    color: white;
+}
+.stat-card .card-body {
+    padding: 1.5rem;
+}
+.stat-card .stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.stat-card.primary { background: linear-gradient(135deg, #667eea, #764ba2); }
+.stat-card.success { background: linear-gradient(135deg, #11998e, #38ef7d); }
+.stat-card.warning { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.stat-card.info    { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+/* 宠物详情页轮播 */
+.pet-carousel img {
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* 评论星级 */
+.star-rating {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+/* 脚部固定在底部 */
+html, body {
+    min-height: 100vh;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
+}

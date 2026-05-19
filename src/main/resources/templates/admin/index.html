@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(${title='管理后台 - 数据看板'})"></head>
+<body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+
+    <main class="container py-4">
+        <h4><i class="bi bi-speedometer2"></i> 数据统计看板</h4>
+        <hr>
+        <!-- 统计卡片 -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card primary"><div class="card-body text-center">
+                    <i class="bi bi-database" style="font-size:2rem;"></i>
+                    <h5 class="mt-2">宠物总数</h5>
+                    <span class="stat-number" th:text="${totalPets}">0</span>
+                </div></div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card success"><div class="card-body text-center">
+                    <i class="bi bi-heart" style="font-size:2rem;"></i>
+                    <h5 class="mt-2">待领养</h5>
+                    <span class="stat-number" th:text="${availablePets}">0</span>
+                </div></div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card warning"><div class="card-body text-center">
+                    <i class="bi bi-hourglass-split" style="font-size:2rem;"></i>
+                    <h5 class="mt-2">待审核申请</h5>
+                    <span class="stat-number" th:text="${pendingApps}">0</span>
+                </div></div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card info"><div class="card-body text-center">
+                    <i class="bi bi-check-circle" style="font-size:2rem;"></i>
+                    <h5 class="mt-2">已通过</h5>
+                    <span class="stat-number" th:text="${approvedApps}">0</span>
+                </div></div>
+            </div>
+        </div>
+
+        <!-- 快速入口 -->
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <a href="/admin/pet/list" class="text-decoration-none">
+                    <div class="card border-primary text-primary text-center p-4">
+                        <i class="bi bi-paw" style="font-size:3rem;"></i>
+                        <h5 class="mt-2">宠物管理</h5>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="/admin/application/list" class="text-decoration-none">
+                    <div class="card border-success text-success text-center p-4">
+                        <i class="bi bi-file-earmark-check" style="font-size:3rem;"></i>
+                        <h5 class="mt-2">申请审核</h5>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="/admin/article/list" class="text-decoration-none">
+                    <div class="card border-warning text-warning text-center p-4">
+                        <i class="bi bi-book" style="font-size:3rem;"></i>
+                        <h5 class="mt-2">文章管理</h5>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 mb-3">
+                <a href="/admin/announcement/list" class="text-decoration-none">
+                    <div class="card border-info text-info text-center p-4">
+                        <i class="bi bi-megaphone" style="font-size:3rem;"></i>
+                        <h5 class="mt-2">公告管理</h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
