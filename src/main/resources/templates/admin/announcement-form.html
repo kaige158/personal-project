@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head(${title=announcement != null ? '编辑公告' : '新增公告'})"></head>
+<head th:replace="fragments/header :: head(title=${announcement != null ? '编辑公告' : '新增公告'})"></head>
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head(${title='首页 - 宠物领养管理系统'})"></head>
+<head th:replace="fragments/header :: head(title='首页 - 宠物领养管理系统')"></head>
 <body>
     <!-- 公告滚动条 -->
     <div class="announcement-bar" th:if="${not #lists.isEmpty(announcements)}">

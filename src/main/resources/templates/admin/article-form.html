@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head(${title=article != null ? '编辑文章' : '新增文章'})"></head>
+<head th:replace="fragments/header :: head(title=${article != null ? '编辑文章' : '新增文章'})"></head>
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
 
